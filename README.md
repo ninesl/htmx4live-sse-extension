@@ -10,7 +10,7 @@ Tag an element with `hx-live-sse-collect` and [`hx-sse:connect`](https://four.ht
 
 This approach follows the [locality of behavior principles](https://four.htmx.org/essays/locality-of-behaviour) HTMX is built on. `HCON`/`JSON` sent lives on the `div` you wire up, and [all its child elements directly have access to the `data-*`](https://four.htmx.org/docs/hx-live-guide#scoping-data) which can drastically reduce serialization/deserialization `hx-live` has to on DOM updates.
 
-The `data: ` sent from your `hx-sse` connection MUST be valid [`JSON`/`HCON`.](https://four.htmx.org/docs/hcon-guide) A `htmx:sse:error` event is emitted when parsing fails and the DOM remains unmodified.
+The `data: ` sent from your `hx-sse` connection MUST be valid [JSON](https://four.htmx.org/docs/hcon-guide#json-fallback) or [HCON](https://four.htmx.org/docs/hcon-guide#syntax). A `htmx:sse:error` event is emitted when parsing fails and the DOM remains unmodified.
 
 ```javascript
 // `hx-sse` message sent from the server:
@@ -48,7 +48,7 @@ Take this second message sent by the `hx-sse` connection:
 data: foo.count:4
 ```
 
-HCON [leaves existing values alone](https://four.htmx.org/docs/hcon-guide), allowing for targeted or partial updates.
+The [dot-notation for nested keys](https://four.htmx.org/docs/hcon-guide#dot-notation-for-nested-keys) targets `foo.count`. The extension's merge preserves omitted fields, including nested fields, allowing for targeted or partial updates.
 
 ```html
 <div 
@@ -80,4 +80,3 @@ data: {"foo":{"count":""},"bar":5}
 A blank string like `data: {"foo":""}` sets `data-foo=""` in the DOM. This does [not remove the actual `data-*`](https://four.htmx.org/extensions/hx-live#data) attribute on the element.
 
 > I purposefully chose to NOT accept DOM elements from the `hx-sse` connection. Intent and behavior of the element that has `hx-sse:connect hx-live-sse-collect` should be obvious [to you or an LLM.](https://ninescoding.com/WhyAPIDesignIsStillImportantForAgentsAndHumansInTheLoop) This behavior can be modified by changing the `.js` extension script. 
-
