@@ -13,18 +13,6 @@ This approach follows the [locality of behavior principles](https://four.htmx.or
 The `data: ` sent from your `hx-sse` connection MUST be valid [`JSON`/`HCON`.](https://four.htmx.org/docs/hcon-guide) An error is sent to HTMX when parsing fails and the DOM remains unmodified.
 
 ```javascript
-const incoming = api.HCON.parse(message.data);
-const current = htmx.live.q(source).local.data;
-const keys = Object.keys(incoming);
-const pairs = keys.map(key => [key, current[key]]);
-const existing = Object.fromEntries(pairs);
-const merged = api.HCON.merge(incoming, existing);
-Object.assign(current, merged);
-```
-
-> I purposefully avoid accepting DOM elements from the `hx-sse` connection. I want elements tagged with `hx-live-sse-collect` behavior and intent to be as obvious as possible, [to you or an LLM.](https://ninescoding.com/WhyAPIDesignIsStillImportantForAgentsAndHumansInTheLoop) This behavior can be modified by changing the `.js` extension script. How HTMX or `hx-live` handles edge cases past this point? `¯\_(ツ)_/¯`
-
-```javascript
 // `hx-sse` message sent from the server:
 data: {"foo":{"count":3,"secondary":4},"bar":2}
 ```
@@ -34,11 +22,11 @@ data: {"foo":{"count":3,"secondary":4},"bar":2}
 ```javascript
 const incoming = api.HCON.parse(message.data);
 const current = htmx.live.q(source).local.data;
-
-Object.assign(current, api.HCON.merge(
-    incoming,
-    Object.fromEntries(Object.keys(incoming).map(key => [key, current[key]]))
-));
+const keys = Object.keys(incoming);
+const pairs = keys.map(key => [key, current[key]]);
+const existing = Object.fromEntries(pairs);
+const merged = api.HCON.merge(incoming, existing);
+Object.assign(current, merged);
 ```
 
 After the extension successfully consumed the `hx-sse` message the DOM will look like this:
@@ -90,3 +78,9 @@ data: {"foo":{"count":""},"bar":5}
 ```
 
 A blank string like `data: {"foo":""}` sets `data-foo=""` in the DOM. This does [not remove the actual `data-*`](https://four.htmx.org/extensions/hx-live#data) tag on the element.
+
+> I purposefully chose to NOT accept DOM elements from the `hx-sse` connection. Intent and behavior of the element that has `hx-sse:connect hx-live-sse-collect` should be obvious [to you or an LLM.](https://ninescoding.com/WhyAPIDesignIsStillImportantForAgentsAndHumansInTheLoop) This behavior can be modified by changing the `.js` extension script. 
+>
+> How HTMX or `hx-live` handles edge cases past this point? `¯\_(ツ)_/¯`
+
+
