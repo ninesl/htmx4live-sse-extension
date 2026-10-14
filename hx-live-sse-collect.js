@@ -6,11 +6,9 @@ htmx.registerExtension('hx-live-sse-collect', {init(api) {
             try {
                 const incoming = api.HCON.parse(message.data);
                 const current = htmx.live.q(source).local.data;
-
                 const keys = Object.keys(incoming);
                 const pairs = keys.map(key => [key, current[key]]);
                 const existing = Object.fromEntries(pairs);
-
                 const merged = api.HCON.merge(incoming, existing);
                 Object.assign(current, merged);
             } catch (error) {
