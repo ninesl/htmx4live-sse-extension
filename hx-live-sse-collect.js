@@ -5,6 +5,7 @@ htmx.registerExtension('hx-live-sse-collect', {init(api) {
             event.preventDefault();
             try {
                 const incoming = api.HCON.parse(message.data);
+                if incoming.
                 const current = htmx.live.q(source).local.data;
                 const keys = Object.keys(incoming);
                 const pairs = keys.map(key => [key, current[key]]);
