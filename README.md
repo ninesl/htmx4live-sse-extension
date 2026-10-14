@@ -77,6 +77,6 @@ data: {"foo":{"count":""},"bar":5}
 </div>
 ```
 
-A blank string like `data: {"foo":""}` sets `data-foo=""` in the DOM. This does [not remove the actual `data-*`](https://four.htmx.org/extensions/hx-live#data) attribute on the element.
+A blank string like `data: {"foo":""}` sets `data-foo=""` in the DOM. This does [not remove the actual `data-*`](https://four.htmx.org/extensions/hx-live#data:~:text=Delete%20a%20value%20or%20assign%20undefined%20to%20remove%20its%20attribute) attribute on the element.
 
 > I purposefully chose to NOT accept DOM elements from the `hx-sse` connection. Intent and behavior of the element that has `hx-sse:connect hx-live-sse-collect` should be obvious [to you or an LLM.](https://ninescoding.com/WhyAPIDesignIsStillImportantForAgentsAndHumansInTheLoop) This behavior can be modified by changing the `.js` extension script. 
