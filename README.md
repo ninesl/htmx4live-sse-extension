@@ -1,5 +1,7 @@
 # hx-live-sse-collect
 
+[![Tests](https://github.com/ninesl/htmx4live-sse-extension/actions/workflows/test.yml/badge.svg)](https://github.com/ninesl/htmx4live-sse-extension/actions/workflows/test.yml)
+
 Tag an element with `hx-live-sse-collect` and [`hx-sse:connect`](https://four.htmx.org/extensions/hx-sse). The extension accumulates state from incoming JSON/HCON messages in `data-*` attributes directly on the same element.
 
 ```html
