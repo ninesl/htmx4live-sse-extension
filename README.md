@@ -10,7 +10,7 @@ Tag an element with `hx-live-sse-collect` and [`hx-sse:connect`](https://four.ht
 </div>
 ```
 
-This approach follows the [locality of behavior principles](https://four.htmx.org/essays/locality-of-behaviour) HTMX is built on. `HCON`/`JSON` sent lives on the `div` you wire up, and [all its child elements directly have access to the `data-*`](https://four.htmx.org/docs/hx-live-guide#scoping-data) which can drastically reduce serialization/deserialization `hx-live` has to on DOM updates.
+This approach follows the [locality of behavior principles](https://four.htmx.org/essays/locality-of-behaviour) HTMX is built on. `HCON`/`JSON` sent lives on the `div` you wire up, and [all its child elements directly have access to the `data-*`](https://four.htmx.org/docs/hx-live-guide#scoping-data) which can drastically reduce serialization/deserialization that `hx-live` does on DOM updates.
 
 The `data: ` sent from your `hx-sse` connection MUST be valid [JSON](https://four.htmx.org/docs/hcon-guide#json-fallback) or [HCON](https://four.htmx.org/docs/hcon-guide#syntax). A `htmx:sse:error` event is emitted when parsing fails and the DOM remains unmodified.
 
